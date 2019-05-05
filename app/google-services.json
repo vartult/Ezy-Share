@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "533126123361",
+    "firebase_url": "https://ezyshare-44614.firebaseio.com",
+    "project_id": "ezyshare-44614",
+    "storage_bucket": "ezyshare-44614.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533126123361:android:7889ed63ebf3cd2b",
+        "android_client_info": {
+          "package_name": "com.example.ezyshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533126123361-ouv214a3avplju3csl7ok2v9pmmjhbmc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ezyshare",
+            "certificate_hash": "1a9ea67336b29bf4650dea2abd104e9429e7f985"
+          }
+        },
+        {
+          "client_id": "533126123361-t7m6u2mnf82f3rnfb9sb1f71ar2kkc84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZZ2DrLjUzFbPc0VZX7xG9bfapuvjsvtw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533126123361-t7m6u2mnf82f3rnfb9sb1f71ar2kkc84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

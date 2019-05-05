@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Ezy Share</string>
+    <string name="topic">"Sample Topic Name"</string>
+    <string name="username">"Kaleen Bhaiya"</string>
+    <string name="star">4/5</string>
+    <string name="dob">"20 March,2019"</string>
+    <string name="views">"198"</string>
+    <string name="downloads">"5000"</string>
+    <string name="expand">View All</string>
+    <string name="notes">Notes</string>
+    <string name="que">Question Papers</string>
+    <string name="ebook">eBooks</string>
+    <string name="sub">Operating System</string>
+    <string name="practical">Practical Files</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_subject">Subject</string>
+    <string name="tab_text_1">What\'s New</string>
+    <string name="tab_text_2">Subjects</string>
+    <string name="tab_text_3">Downloads</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="alll">All Subjects</string>
+    <string name="myy">My Subjects</string>
+</resources>
