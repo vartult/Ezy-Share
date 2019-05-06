@@ -1,5 +1,6 @@
 package com.example.ezyshare;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -127,10 +130,13 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+        //this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
     }
 
     private void collectAllSubject(Map<String,Object> text_all) {
         //Log.d("Test",text_all);
+        st.clear();
         for (String entry : text_all.keySet()){
             st.add(entry);
             Log.d("Test",entry);

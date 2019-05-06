@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -46,14 +47,17 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Subject extends AppCompatActivity {
     String x,m_Text;
     TextView add;
     Uri fileuri;
     Uri downloadUri;
-    ArrayList<DataType> str;
+    ArrayList<datatype2> str_notes;
+    ArrayList<datatype2> str_question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,8 @@ public class Subject extends AppCompatActivity {
         setContentView(R.layout.activity_subject);
 
         FirebaseApp.initializeApp(getApplicationContext());
+        str_question=new ArrayList();
+        str_notes=new ArrayList();
         Intent intent= getIntent();
         x=intent.getStringExtra("subject");
         Toast.makeText(Subject.this,"SUBJECT: "+x,Toast.LENGTH_LONG).show();
@@ -70,7 +76,105 @@ public class Subject extends AppCompatActivity {
     }
 
     private void init() {
-        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference otherUsers = FirebaseDatabase.getInstance().getReference(x);
+
+        otherUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap subject = (HashMap) dataSnapshot.getValue();
+
+                 Set<String> keys = subject.keySet();
+
+                for (final String key : keys) {
+
+                    if (key.equals("Notes")) {
+
+                        otherUsers.child(key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                HashMap hm = (HashMap) dataSnapshot.getValue();
+
+                                Set<String> notes_today=hm.keySet();
+                                for (String key1 : notes_today){
+                                    otherUsers.child(key).child(key1).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            HashMap notes_final=(HashMap) dataSnapshot.getValue();
+
+                                            String date=notes_final.get("date").toString();
+                                            String file=notes_final.get("file").toString();
+                                            String name=notes_final.get("name").toString();
+
+                                            //if(!date.equals("")&&!file.equals("")&&!name.equals(""))
+                                               datatype2 dt=new datatype2(name,file,date);
+                                            str_notes.add(dt);
+                                            Log.d("MY DATA MAH LIFE",date+file+name);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    else {
+
+                        otherUsers.child(key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                HashMap hm = (HashMap) dataSnapshot.getValue();
+
+                                Set<String> notes_today=hm.keySet();
+                                for (String key1 : notes_today){
+                                    otherUsers.child(key).child(key1).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            HashMap notes_final=(HashMap) dataSnapshot.getValue();
+
+                                            String date=notes_final.get("date").toString();
+                                            String file=notes_final.get("file").toString();
+                                            String name=notes_final.get("name").toString();
+                                            datatype2 dt=new datatype2(name,file,date);
+                                            str_question.add(dt);
+                                            Log.d("MY DATA MAH LIFE",date+file+name);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        /*DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
         ref1.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -83,7 +187,7 @@ public class Subject extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
                         //handle databaseError
                     }
-                });
+                });*/
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,14 +256,27 @@ public class Subject extends AppCompatActivity {
         });
     }
 
-    private void collectAllSubject(DataSnapshot dataSnapshot) {
+    /*private void collectAllSubject(DataSnapshot dataSnapshot) {
+        String date="",file="",name="";
         for(DataSnapshot ds : dataSnapshot.getChildren()) {
-            String date = ds.child("date").getValue(String.class);
-            String file = ds.child("file").getValue(String.class);
-            String name = ds.child("name").getValue(String.class);
+
+            for(DataSnapshot ds1 : ds.getChildren()){
+                for(DataSnapshot ds2: ds1.getChildren()){
+                    if(ds1.getKey().equals("Notes")){
+                        DataType temp= (DataType) ds2.getValue();
+                        file=temp.file;
+                        name=temp.name;
+                        date=temp.date;
+                    }
+                    else{
+
+                    }
+                }
+            }
+
             Log.d("TAG", name + " / " + file + "/" + date);
         }
-    }
+    }*/
 
     private void upload(final String Type, final String name) {
 
