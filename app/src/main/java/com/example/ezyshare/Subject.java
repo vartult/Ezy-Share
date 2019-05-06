@@ -20,8 +20,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +56,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Subject extends AppCompatActivity {
+    ListView m_notes,m_que;
     String x,m_Text;
     TextView add;
     Uri fileuri;
@@ -71,6 +76,12 @@ public class Subject extends AppCompatActivity {
         x=intent.getStringExtra("subject");
         Toast.makeText(Subject.this,"SUBJECT: "+x,Toast.LENGTH_LONG).show();
         add=findViewById(R.id.add);
+
+        m_notes=findViewById(R.id.m_notes);
+        m_que=findViewById(R.id.m_que);
+
+        m_notes.setAdapter(custom_notes);
+        m_que.setAdapter(custom_question);
 
         init();
     }
@@ -316,6 +327,7 @@ public class Subject extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
+
                         }
                         @Override
                         public void onCancelled(DatabaseError error) {
@@ -338,5 +350,67 @@ public class Subject extends AppCompatActivity {
         Log.d("IIIIIIIIIIIIIIIIIIIIII",fileuri.toString());
         super.onActivityResult(requestCode, resultCode, data);
     }
+    class custom_notes extends BaseAdapter {
 
+        @Override
+        public int getCount() {
+            return str_notes.size();
+        }
+
+        @Override
+        public datatype2 getItem(int position) {
+            return str_notes.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView= getLayoutInflater().inflate(R.layout.recyclerviewlay,parent,false);
+
+            TextView name=itemView.findViewById(R.id.name);
+            TextView date=itemView.findViewById(R.id.date);
+
+            name.setText(getItem(position).getName());
+            date.setText(getItem(position).getDate());
+
+         return itemView;
+        }
+    }
+
+    class custom_question extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return str_notes.size();
+        }
+
+        @Override
+        public datatype2 getItem(int position) {
+            return str_question.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView= getLayoutInflater().inflate(R.layout.recyclerviewlay,parent,false);
+
+            TextView name=itemView.findViewById(R.id.name);
+            TextView date=itemView.findViewById(R.id.date);
+
+            name.setText(getItem(position).getName());
+            date.setText(getItem(position).getDate());
+
+            return itemView;
+        }
+    }
 }
+
+
