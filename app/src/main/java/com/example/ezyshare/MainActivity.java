@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     String m_Text;
     ListView m_listview;
     ArrayList<String> st;
+    ArrayAdapter<String> itemsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
 
-        ArrayAdapter<String> itemsAdapter =
+        itemsAdapter=
 
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, st);
-        m_listview.setAdapter(itemsAdapter);
+
 
         m_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        itemsAdapter.notifyDataSetChanged();
 
         DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
         ref1.addListenerForSingleValueEvent(
@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
             st.add(entry);
             Log.d("Test",entry);
         }
+        m_listview.setAdapter(itemsAdapter);
     }
 
     private void database(String m_Text) {
@@ -156,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 st.add(dataSnapshot.getKey());
+                itemsAdapter.notifyDataSetChanged();
+
             }
 
             @Override

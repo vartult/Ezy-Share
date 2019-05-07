@@ -63,6 +63,8 @@ public class Subject extends AppCompatActivity {
     Uri downloadUri;
     ArrayList<datatype2> str_notes;
     ArrayList<datatype2> str_question;
+    custom_notes cn;
+    custom_question cq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +81,8 @@ public class Subject extends AppCompatActivity {
 
         m_notes=findViewById(R.id.m_notes);
         m_que=findViewById(R.id.m_que);
-
-        m_notes.setAdapter(custom_notes);
-        m_que.setAdapter(custom_question);
+        cq= new custom_question();
+        cn=new custom_notes();
 
         init();
     }
@@ -176,14 +177,23 @@ public class Subject extends AppCompatActivity {
                             }
                         });
                     }
-
                 }
+                //if(m_notes.getCount()!=0&&m_que.getCount()!=0){
+                    m_notes.setAdapter(cn);
+                    m_que.setAdapter(cq);
+                /*}
+                else{
+                    m_notes.setEmptyView(m_notes);
+                    m_que.setEmptyView(m_que);
+                    Toast.makeText(Subject.this, "No Data to show", Toast.LENGTH_SHORT).show();
+                }*/
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
         /*DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
         ref1.addListenerForSingleValueEvent(
@@ -350,6 +360,7 @@ public class Subject extends AppCompatActivity {
         Log.d("IIIIIIIIIIIIIIIIIIIIII",fileuri.toString());
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     class custom_notes extends BaseAdapter {
 
         @Override
