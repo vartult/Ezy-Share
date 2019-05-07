@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,8 +82,7 @@ public class Subject extends AppCompatActivity {
 
         m_notes=findViewById(R.id.m_notes);
         m_que=findViewById(R.id.m_que);
-        cq= new custom_question();
-        cn=new custom_notes();
+
 
         init();
     }
@@ -122,6 +122,23 @@ public class Subject extends AppCompatActivity {
                                                datatype2 dt=new datatype2(name,file,date);
                                             str_notes.add(dt);
                                             Log.d("MY DATA MAH LIFE",date+file+name);
+
+                                            cq= new custom_question();
+                                            Integer x= cq.getCount();
+                                            String y=x.toString();
+                                            Log.d("HELLO",y);
+                                            cn=new custom_notes();
+                                            Integer a=cn.getCount();
+                                            String b=a.toString();
+                                            if(a!=0&&x!=0){
+                                                m_notes.setAdapter(cn);
+                                                m_que.setAdapter(cq);
+                                            }
+                                            else{
+                                                m_notes.setEmptyView(m_notes);
+                                                m_que.setEmptyView(m_que);
+                                            }
+
                                         }
 
                                         @Override
@@ -179,14 +196,13 @@ public class Subject extends AppCompatActivity {
                     }
                 }
                 //if(m_notes.getCount()!=0&&m_que.getCount()!=0){
-                    m_notes.setAdapter(cn);
-                    m_que.setAdapter(cq);
+
                 /*}
                 else{
-                    m_notes.setEmptyView(m_notes);
-                    m_que.setEmptyView(m_que);
+
                     Toast.makeText(Subject.this, "No Data to show", Toast.LENGTH_SHORT).show();
                 }*/
+
             }
 
             @Override
@@ -195,6 +211,7 @@ public class Subject extends AppCompatActivity {
             }
 
         });
+
         /*DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
         ref1.addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -337,6 +354,11 @@ public class Subject extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
+
+                            cq= new custom_question();
+                            cn=new custom_notes();
+                            m_notes.setAdapter(cn);
+                            m_que.setAdapter(cq);
 
                         }
                         @Override
