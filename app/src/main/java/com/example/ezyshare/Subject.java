@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -93,10 +94,10 @@ public class Subject extends AppCompatActivity {
         otherUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("SASY","Testing");
                 HashMap subject = (HashMap) dataSnapshot.getValue();
 
                  Set<String> keys = subject.keySet();
-
                 for (final String key : keys) {
 
                     if (key.equals("Notes")) {
@@ -123,20 +124,24 @@ public class Subject extends AppCompatActivity {
                                             str_notes.add(dt);
                                             Log.d("MY DATA MAH LIFE",date+file+name);
 
-                                            cq= new custom_question();
-                                            Integer x= cq.getCount();
-                                            String y=x.toString();
-                                            Log.d("HELLO",y);
+                                            ////////////////////////////////
                                             cn=new custom_notes();
                                             Integer a=cn.getCount();
                                             String b=a.toString();
-                                            if(a!=0&&x!=0){
+                                            if(a!=0){
                                                 m_notes.setAdapter(cn);
                                                 m_que.setAdapter(cq);
+
+                                                m_notes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                                    }
+                                                });
                                             }
                                             else{
                                                 m_notes.setEmptyView(m_notes);
-                                                m_que.setEmptyView(m_que);
+                                                
                                             }
 
                                         }
@@ -152,7 +157,7 @@ public class Subject extends AppCompatActivity {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                Log.d("SASY","Testing");
                             }
                         });
                     }
@@ -177,11 +182,29 @@ public class Subject extends AppCompatActivity {
                                             datatype2 dt=new datatype2(name,file,date);
                                             str_question.add(dt);
                                             Log.d("MY DATA MAH LIFE",date+file+name);
+                                            cq= new custom_question();
+                                            Integer x= cq.getCount();
+                                            String y=x.toString();
+
+                                            if(x!=0){
+                                                m_que.setAdapter(cq);
+
+                                                m_notes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                                    }
+                                                });
+                                            }
+                                            else{
+                                                m_que.setEmptyView(m_que);
+                                            }
+
                                         }
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                            Log.d("SASY","Testing");
                                         }
                                     });
                                 }
@@ -190,7 +213,7 @@ public class Subject extends AppCompatActivity {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                Log.d("SASY","Testing");
                             }
                         });
                     }
@@ -207,7 +230,7 @@ public class Subject extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d("SASY","Testing");
             }
 
         });
