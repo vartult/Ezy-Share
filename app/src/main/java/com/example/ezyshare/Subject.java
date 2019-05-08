@@ -43,6 +43,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ThrowOnExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -138,6 +139,7 @@ public class Subject extends AppCompatActivity {
                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                         DownloadManager dm=(DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                                                         Uri uri= Uri.parse(file);
+                                                        Toast.makeText(getApplicationContext(),"Downloading Document",Toast.LENGTH_SHORT).show();
 
                                                         DownloadManager.Request request= new DownloadManager.Request(uri);
                                                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
@@ -172,7 +174,6 @@ public class Subject extends AppCompatActivity {
                         otherUsers.child(key).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                                 HashMap hm = (HashMap) dataSnapshot.getValue();
 
                                 Set<String> notes_today=hm.keySet();
@@ -201,7 +202,7 @@ public class Subject extends AppCompatActivity {
                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                         DownloadManager dm=(DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                                                         Uri uri= Uri.parse(file);
-
+                                                        Toast.makeText(getApplicationContext(),"Downloading Document",Toast.LENGTH_SHORT).show();
                                                         DownloadManager.Request request= new DownloadManager.Request(uri);
                                                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                                                         Long Refrence = dm.enqueue(request);
@@ -390,10 +391,6 @@ public class Subject extends AppCompatActivity {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
 
-                            cq= new custom_question();
-                            cn=new custom_notes();
-                            m_notes.setAdapter(cn);
-                            m_que.setAdapter(cq);
 
                         }
                         @Override
