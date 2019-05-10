@@ -107,58 +107,61 @@ public class Subject extends AppCompatActivity {
                         otherUsers.child(key).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String st=String.valueOf(dataSnapshot.getValue());
+                                if(!st.equals(key)) {
 
-                                HashMap hm = (HashMap) dataSnapshot.getValue();
+                                    HashMap hm = (HashMap) dataSnapshot.getValue();
 
-                                Set<String> notes_today=hm.keySet();
-                                for (String key1 : notes_today){
-                                    otherUsers.child(key).child(key1).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            HashMap notes_final=(HashMap) dataSnapshot.getValue();
+                                    Set<String> notes_today = hm.keySet();
+                                    for (String key1 : notes_today) {
+                                        otherUsers.child(key).child(key1).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                HashMap notes_final = (HashMap) dataSnapshot.getValue();
 
-                                            String date=notes_final.get("date").toString();
-                                            final String file=notes_final.get("file").toString();
-                                            String name=notes_final.get("name").toString();
+                                                final String date = notes_final.get("date").toString();
+                                                final String file = notes_final.get("file").toString();
+                                                final String name = notes_final.get("name").toString();
 
-                                            //if(!date.equals("")&&!file.equals("")&&!name.equals(""))
-                                               datatype2 dt=new datatype2(name,file,date);
-                                            str_notes.add(dt);
-                                            Log.d("MY DATA MAH LIFE",date+file+name);
+                                                //if(!date.equals("")&&!file.equals("")&&!name.equals(""))
+                                                datatype2 dt = new datatype2(name, file, date);
+                                                str_notes.add(dt);
+                                                Log.d("MY DATA MAH LIFE", date + file + name);
 
-                                            ////////////////////////////////
-                                            cn=new custom_notes();
-                                            Integer a=cn.getCount();
-                                            String b=a.toString();
-                                            if(a!=0){
-                                                m_notes.setAdapter(cn);
-                                                m_que.setAdapter(cq);
+                                                ////////////////////////////////
+                                                cn = new custom_notes();
+                                                Integer a = cn.getCount();
+                                                String b = a.toString();
+                                                if (a != 0) {
+                                                    m_notes.setAdapter(cn);
+                                                    m_que.setAdapter(cq);
 
-                                                m_notes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                    @Override
-                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                        DownloadManager dm=(DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                                                        Uri uri= Uri.parse(file);
-                                                        Toast.makeText(getApplicationContext(),"Downloading Document",Toast.LENGTH_SHORT).show();
+                                                    m_notes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                                                            Uri uri = Uri.parse(file);
+                                                            Toast.makeText(getApplicationContext(), "Downloading Document", Toast.LENGTH_SHORT).show();
 
-                                                        DownloadManager.Request request= new DownloadManager.Request(uri);
-                                                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                                        Long Refrence = dm.enqueue(request);
-                                                    }
-                                                });
+                                                            DownloadManager.Request request = new DownloadManager.Request(uri);
+                                                            request.setTitle(name+".pdf");
+                                                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                                                            Long Refrence = dm.enqueue(request);
+                                                        }
+                                                    });
+                                                } else {
+                                                    m_notes.setEmptyView(m_notes);
+
+                                                }
+
                                             }
-                                            else{
-                                                m_notes.setEmptyView(m_notes);
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                             }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
+                                        });
+                                    }
                                 }
 
                             }
@@ -174,52 +177,56 @@ public class Subject extends AppCompatActivity {
                         otherUsers.child(key).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                HashMap hm = (HashMap) dataSnapshot.getValue();
 
-                                Set<String> notes_today=hm.keySet();
-                                for (String key1 : notes_today){
-                                    otherUsers.child(key).child(key1).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            HashMap notes_final=(HashMap) dataSnapshot.getValue();
+                                String st=String.valueOf( dataSnapshot.getValue());
+                                if(!st.equals(key)) {
+                                    HashMap hm = (HashMap) dataSnapshot.getValue();
 
-                                            String date=notes_final.get("date").toString();
-                                            final String file=notes_final.get("file").toString();
-                                            String name=notes_final.get("name").toString();
-                                            datatype2 dt=new datatype2(name,file,date);
-                                            str_question.add(dt);
-                                            Log.d("MY DATA MAH LIFE",date+file+name);
+                                    Set<String> notes_today = hm.keySet();
+                                    for (String key1 : notes_today) {
+                                        otherUsers.child(key).child(key1).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                HashMap notes_final = (HashMap) dataSnapshot.getValue();
 
-                                            cq= new custom_question();
-                                            Integer x= cq.getCount();
-                                            String y=x.toString();
+                                                final String date = notes_final.get("date").toString();
+                                                final String file = notes_final.get("file").toString();
+                                                final String name = notes_final.get("name").toString();
+                                                datatype2 dt = new datatype2(name, file, date);
+                                                str_question.add(dt);
+                                                Log.d("MY DATA MAH LIFE", date + file + name);
 
-                                            if(x!=0){
-                                                m_que.setAdapter(cq);
+                                                cq = new custom_question();
+                                                Integer x = cq.getCount();
+                                                String y = x.toString();
 
-                                                m_notes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                    @Override
-                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                        DownloadManager dm=(DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                                                        Uri uri= Uri.parse(file);
-                                                        Toast.makeText(getApplicationContext(),"Downloading Document",Toast.LENGTH_SHORT).show();
-                                                        DownloadManager.Request request= new DownloadManager.Request(uri);
-                                                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                                        Long Refrence = dm.enqueue(request);
-                                                    }
-                                                });
+                                                if (x != 0) {
+                                                    m_que.setAdapter(cq);
+
+                                                    m_notes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                        @Override
+                                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                            DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                                                            Uri uri = Uri.parse(file);
+                                                            Toast.makeText(getApplicationContext(), "Downloading Document", Toast.LENGTH_SHORT).show();
+                                                            DownloadManager.Request request = new DownloadManager.Request(uri);
+                                                            request.setTitle(name);
+                                                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                                                            Long Refrence = dm.enqueue(request);
+                                                        }
+                                                    });
+                                                } else {
+                                                    m_que.setEmptyView(m_que);
+                                                }
+
                                             }
-                                            else{
-                                                m_que.setEmptyView(m_que);
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Log.d("SASY", "Testing");
                                             }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Log.d("SASY","Testing");
-                                        }
-                                    });
+                                        });
+                                    }
                                 }
 
                             }
@@ -385,13 +392,17 @@ public class Subject extends AppCompatActivity {
                     
                     //str.add(dt);
 
-                    myRef.addValueEventListener(new ValueEventListener() {
+                    /*myRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             // This method is called once with the initial value and again
                             // whenever data at this location is updated.
+                           *//* HashMap hs =(HashMap) dataSnapshot.getValue();
+                            String date=hs.get("date").toString();
+                            String file=hs.get("file").toString();
+                            String name=hs.get("name").toString();*//*
 
-
+                            Log.i("QWERTY",String.valueOf(dataSnapshot.getValue()));
                         }
                         @Override
                         public void onCancelled(DatabaseError error) {
@@ -399,9 +410,9 @@ public class Subject extends AppCompatActivity {
                             Log.w("Error", "Failed to read value.", error.toException());
                         }
                     });
-                    Log.d("Sexy",downloadUri.toString());
+*/
                 } else {
-
+                    Toast.makeText(getApplicationContext(),"Upload Error!",Toast.LENGTH_LONG).show();
                 }
             }
         });
